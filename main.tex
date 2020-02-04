@@ -1,0 +1,108 @@
+\documentclass{amsproc}
+
+\usepackage{amsrefs}
+\usepackage{hyperref}
+
+\newcommand{\doi}[1]{\href{https://doi.org/#1}{doi: #1}} 
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\G}{\mathbb{G}}
+
+
+\title{Lizard}
+\author{Abraham Westerbaan}
+
+\begin{document}
+\maketitle
+\begin{abstract}
+This note specifies
+``lizard''
+a reversible injection from $\{0,\dotsc,255\}^{16}$
+to ristretto255, a prime order elliptic curve group built 
+    on top of Curve25519.
+\end{abstract}
+
+Curve25519, originally intended\cite{x25519} for 
+Diffie--Hellman key exchange,
+is now also commonly used for
+digital signatures\cite{ed25519}
+and public key encryption\cite{rfc6637},
+and will likely find more popular applications
+in the years to come.
+One of the intricacies of designing
+a cryptographical system
+based on the Curve25519 group~$\G$
+is the fact
+that~$\G$
+is almost ---but not precisely--- of prime order,
+being isomorphic to~$\Z/\ell\Z \oplus \Z/8\Z$,
+where~$\ell = 2^{252}+27742317777372353535851937790883648493$ is prime.
+
+
+
+\begin{bibdiv}
+\begin{biblist}
+\bib{x25519}{article}{
+  title={Curve25519: new {D}iffie--{H}ellman speed records},
+  author={Bernstein, Daniel J.},
+  conference={
+      title={PKC},
+      date={2006},
+      address={New York}
+  },
+  book={
+      series={LNCS},
+      volume={3958}
+  },
+  pages={207--228},
+  year={2006},
+  note={\doi{10.1007/11745853\_14}}
+}
+
+\bib{ed25519}{article}{
+    title={High-speed high-security signatures},
+    author={Bernstein, Daniel J.},
+    author={Duif, Niels},
+    author={Lange, Tanja},
+    author={Schwabe, Peter},
+    author={Yang, Bo--Yin},
+    journal={Journal of Cryptographic Engineering},
+    volume={2},
+    pages={77--89},
+    year={2012},
+    note={\doi{10.1007/s13389-012-0027-1}}
+}
+
+\bib{decaf}{article}{
+    title={Decaf: Eliminating cofactors through point compression},
+    book={
+        series={LNCS},
+        volume={9215}
+    },
+    author={Hamburg, Mike},
+    conference={
+        title={CRYPTO},
+        date={2015}
+    },
+    pages={705--723},
+    year={2015},
+    note={\doi{10.1007/978-3-662-47989-6\_34}}
+}
+
+\bib{rfc6637}{report}{
+    title={Elliptic Curve Cryptography (ECC) in OpenPGP},
+    author={A. Jivsov},
+    date={June 2012},
+    organization={IETF},
+    number={RFC6637},
+    note={\doi{10.17487/rfc6637}}
+}
+\end{biblist}
+\end{bibdiv}
+
+
+\section{Notes to self}
+ElGamal in a cyclic group is mentioned in \S8.4.2 of 
+the ``Handbook of Applied Cryptography''.
+
+
+\end{document}
