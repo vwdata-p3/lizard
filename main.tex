@@ -21,21 +21,31 @@ to ristretto255, a prime order elliptic curve group built
     on top of Curve25519.
 \end{abstract}
 
-Curve25519, originally intended\cite{x25519} for 
+Curve25519 is a widely adopted elliptic curve
+that was originally intended\cite{x25519} for 
 Diffie--Hellman key exchange,
-is now also commonly used for
+but is now also used for
 digital signatures\cite{ed25519}
-and public key encryption\cite{rfc6637},
-and will likely find more popular applications
-in the years to come.
-One of the intricacies of designing
-a cryptographical system
-based on the Curve25519 group~$\G$
-is the fact
-that~$\G$
-is almost ---but not precisely--- of prime order,
-being isomorphic to~$\Z/\ell\Z \oplus \Z/8\Z$,
-where~$\ell = 2^{252}+27742317777372353535851937790883648493$ is prime.
+and public key encryption\cite{rfc6637}.
+As long as it keeps withstanding attacks and public scrutiny
+(as stubbornly as quantum computers resist realisation)
+Curve25519 is likely to be the basis for many more popular
+cryptographic schemes to come.
+
+From an abstract point of view
+Curve25519 provides a cyclic group~$G$
+with cheap addition and negation,
+but in which less elementary problems, 
+such as the computation of discrete logarithms,
+remain practically insoluble.
+Schemes formulated in terms of~$G$
+derive their security primarily from the hardness of such problems:
+to learn such and such secret,
+attackers would
+need to solve
+this and that problem,
+which is currently considered impossible.
+
 
 
 
@@ -103,6 +113,8 @@ where~$\ell = 2^{252}+27742317777372353535851937790883648493$ is prime.
 \section{Notes to self}
 ElGamal in a cyclic group is mentioned in \S8.4.2 of 
 the ``Handbook of Applied Cryptography''.
+
+Mention Edwards versus Montgomery coordinates.
 
 
 \end{document}
