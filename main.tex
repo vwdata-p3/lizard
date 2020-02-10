@@ -39,12 +39,51 @@ but in which less elementary problems,
 such as the computation of discrete logarithms,
 remain practically insoluble.
 Schemes formulated in terms of~$G$
-derive their security primarily from the hardness of such problems:
+derive their security primarily from 
+the estimated hardness of such problems:
 to learn such and such secret,
 attackers would
 need to solve
 this and that problem,
 which is currently considered impossible.
+While such an abstract view
+provides a clean setting 
+to formalise schemes
+and analyse their security,
+an attacker is not bound by it,
+and may exploit `implementation details' instead,
+of which there are more in an abstract setting.
+
+Care must be taken,
+for example,
+in checking points provided by untrusted parties,
+for if these lie outside the curve,
+they may lie in a curve with small order,
+possibly enabling an `invalid-curve attack'
+(see~\cite{invalidcurveattack,hmqvattack}).
+The problem here is not that it is terribly expensive
+to check that a point lies on the curve,
+but rather that---for the sake of efficiency---this check should be 
+performed only once. 
+Omission of the check by an
+implementor
+of a scheme not mentioning such details
+is now easily imagined.
+Bernstein's Curve25519 Diffie--Hellman scheme cleverly sidesteps
+such issues
+by an encoding points that 
+by encoding points in such a way that 
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -106,6 +145,38 @@ which is currently considered impossible.
     number={RFC6637},
     note={\doi{10.17487/rfc6637}}
 }
+
+\bib{invalidcurveattack}{article}{
+    title={Validation of elliptic curve public keys},
+    author={Antipa, Adrian},
+    author={Brown, Daniel},
+    author={Menezes, Alfred},
+    author={Struik, Ren{\'e}},
+    author={Vanstone, Scott},
+    book={
+        series={LNCS},
+        volume={2567}
+    },
+    conference={
+        title={PKC},
+        date={2003}
+    },
+    pages={211--223},
+    year={2003},
+    note={\doi{10.1007/3-540-36288-6\_16}}
+}
+
+\bib{hmqvattack}{article}{
+  title={Another look at HMQV},
+  author={Menezes, Alfred},
+  journal={JMC},
+  volume={1},
+  number={1},
+  pages={47--64},
+  year={2007},
+  note={\doi{10.1515/JMC.2007.004}}
+}
+
 \end{biblist}
 \end{bibdiv}
 
