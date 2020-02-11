@@ -21,6 +21,7 @@ to ristretto255, a prime order elliptic curve group built
     on top of Curve25519.
 \end{abstract}
 
+\section{Background}
 Curve25519 is a widely adopted elliptic curve
 that was originally intended\cite{x25519} for 
 Diffie--Hellman key exchange,
@@ -34,7 +35,7 @@ cryptographic schemes to come.
 
 From an abstract point of view
 Curve25519 provides a cyclic group~$G$
-with cheap addition and negation,
+with cheap addition, negation, and scalar multiplication,
 but in which less elementary problems, 
 such as the computation of discrete logarithms,
 remain practically insoluble.
@@ -56,23 +57,23 @@ of which there are more in an abstract setting.
 
 Care must be taken,
 for example,
-in checking points provided by untrusted parties,
+in checking that points provided by untrusted parties,
 for if these lie outside the curve,
-they may lie in a curve with small order,
-possibly enabling an `invalid-curve attack'
-(see~\cite{invalidcurveattack,hmqvattack}).
-The problem here is not that it is terribly expensive
-to check that a point lies on the curve,
-but rather that---for the sake of efficiency---this check should be 
-performed only once. 
-Omission of the check by an
-implementor
-of a scheme not mentioning such details
-is now easily imagined.
-Bernstein's Curve25519 Diffie--Hellman scheme cleverly sidesteps
-such issues
-by an encoding points that 
-by encoding points in such a way that 
+they may lie on a curve of small order,
+in which the discrete logarithm problem is tractable.
+The problem here is not that it
+is terribly expensive to thwart such `invalid-curve attacks'
+(see~\cite{invalidcurveattack,hmqvattack})
+by checking that points lie on the curve,
+but rather that such a check need not be performed on the same point twice,
+so that it can easily be omitted once too often by accident
+in an implementation of a scheme not concerned with such details.
+Bernstein's Curve25519 Diffie--Hellman scheme sidesteps
+this issue by using an encoding of points
+that never yields points outside the valid curve.
+
+
+
 
 
 
