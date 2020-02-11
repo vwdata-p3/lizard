@@ -52,40 +52,35 @@ provides a clean setting
 to formalise schemes
 and analyse their security,
 an attacker is not bound by it,
-and may exploit `implementation details' instead,
-of which there are more in an abstract setting.
+and may exploit `implementation details' instead.
 
 Care must be taken,
 for example,
 in checking that points provided by untrusted parties,
 for if these lie outside the curve,
 they may lie on a curve of small order,
-in which the discrete logarithm problem is tractable.
+in which the discrete logarithm problem is tractable
+(see~\cite{invalidcurveattack,hmqvattack} for more details.)
 The problem here is not that it
-is terribly expensive to thwart such `invalid-curve attacks'
-(see~\cite{invalidcurveattack,hmqvattack})
+is terribly expensive to thwart such 
+`invalid-curve attacks'
 by checking that points lie on the curve,
 but rather that such a check need not be performed on the same point twice,
 so that it can easily be omitted once too often by accident
 in an implementation of a scheme not concerned with such details.
 Bernstein's Curve25519 Diffie--Hellman scheme sidesteps
 this issue by using an encoding of points
-that never yields points outside the valid curve.
+that never yields points outside the valid curve
+by design.
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+Another matter to contend with
+is the existence of points of order~$8$ on Curve25519.
+During a Diffie--Hellman key exchange, for instance,
+such a point can be used by an attacker
+(in a `small-subgroup attack')
+to learn the three least significant
+bits of its correspondent's secret key;
+these bits are therefore, prudently, always set to~$0$.
 
 
 
