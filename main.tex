@@ -73,14 +73,42 @@ this issue by using an encoding of points
 that never yields points outside the valid curve
 by design.
 
-Another matter to contend with
-is the existence of points of order~$8$ on Curve25519.
+Another matter designers have to contend with
+is the existence of points of order~$8$ in~$G$.
 During a Diffie--Hellman key exchange, for instance,
 such a point can be used by an attacker
 (in a `small-subgroup attack')
 to learn the three least significant
-bits of its correspondent's secret key;
-these bits are therefore, prudently, always set to~$0$.
+bits of its correspondent's secret key.
+Although the revelation of these three bits has
+negligible impact on the security of vanilla Diffie--Hellman,
+these low-order bits are nevertheless prudently set to~$0$
+(see~``Responsibilities of the user'', \S3 of~\cite{x25519}).
+For more complex protocols,
+attacks based on small-order points
+can be subtler and far more serious.
+The designers of CryptoNote\cite{cryptonote},
+for example,
+had not taken into account\cite{monero-disclosure,monero-curves-post}
+that
+their `one-time ring signature',
+that was supposed to force the spender of a coin
+to reveal the `key image' of this coin
+(a unique point in~$G$ used to record that the coin was spend),
+only forces the spender to reveal
+the `key image' \emph{plus} a point of order $\leq 8$,
+making it possible to spend the same coin 8~times.
+The obvious solution is to restrict
+the key images
+to the first factor of~$G\cong \Z/\ell\Z \oplus \Z/8\Z$,
+so that there is only one possible key image modulo
+the small subgroup $\cong \Z/8\Z$.
+This restriction can be enforced by checking that the $\ell$-fold
+sum of a key image is zero,
+which is indeed the way the vulnerability 
+was patched in the CryptoNote based 
+currency Monero.\cite{monero-fix}
+
 
 
 
@@ -163,16 +191,42 @@ these bits are therefore, prudently, always set to~$0$.
 }
 
 \bib{hmqvattack}{article}{
-  title={Another look at HMQV},
-  author={Menezes, Alfred},
-  journal={JMC},
-  volume={1},
-  number={1},
-  pages={47--64},
-  year={2007},
-  note={\doi{10.1515/JMC.2007.004}}
+    title={Another look at HMQV},
+    author={Menezes, Alfred},
+    journal={JMC},
+    volume={1},
+    number={1},
+    pages={47--64},
+    year={2007},
+    note={\doi{10.1515/JMC.2007.004}}
 }
 
+\bib{cryptonote}{report}{
+    title={CryptoNote v~2.0},
+    author={van Saberhagen, Nicolas},
+    date={2013-10-17},
+    note={\url{https://cryptonote.org/whitepaper.pdf}}
+}
+
+\bib{monero-disclosure}{misc}{
+    title={Disclosure of a Major Bug in CryptoNote Based Currencies},
+    author={`luigi1111'},
+    author={Riccardo Spagni},
+    note={\url{https://web.getmonero.org/2017/05/17/disclosure-of-a-major-bug-in-cryptonote-based-currencies.html}},
+    year={2017-05-17}
+}
+
+\bib{monero-curves-post}{misc}{
+    title={CryptoNote and equivalent points},
+    author={Trevor Perrin},
+    note={\url{https://moderncrypto.org/mail-archive/curves/2017/000898.html}},
+    year={2017-05-18},
+}
+
+\bib{monero-fix}{misc}{
+    note={\url{https://github.com/monero-project/monero/pull/1744/commits/d282cfcc46d39dc49e97f9ec5cedf7425e74d71f}},
+    date={2017-02-20}
+}
 \end{biblist}
 \end{bibdiv}
 
