@@ -86,28 +86,45 @@ these low-order bits are nevertheless prudently set to~$0$
 (see~``Responsibilities of the user'', \S3 of~\cite{x25519}).
 For more complex protocols,
 attacks based on small-order points
-can be subtler and far more serious.
+can be subtler, and more serious.
 The designers of CryptoNote\cite{cryptonote},
 for example,
 had not taken into account\cite{monero-disclosure,monero-curves-post}
 that
 their `one-time ring signature',
 that was supposed to force the spender of a coin
-to reveal the `key image' of this coin
+to reveal the coin's `key image'
 (a unique point in~$G$ used to record that the coin was spend),
 only forces the spender to reveal
 the `key image' \emph{plus} a point of order $\leq 8$,
 making it possible to spend the same coin 8~times.
-The obvious solution is to restrict
-the key images
-to the first factor of~$G\cong \Z/\ell\Z \oplus \Z/8\Z$,
-so that there is only one possible key image modulo
+An obvious solution,
+used by the CryptoNote based 
+currency Monero\cite{monero-fix},
+is to restrict
+key images
+to the first factor of~$G\cong \Z/\ell\Z \oplus \Z/8\Z$
+(by checking that the $\ell$-fold sum of the key image is zero,)
+so that there is only one key image modulo
 the small subgroup $\cong \Z/8\Z$.
-This restriction can be enforced by checking that the $\ell$-fold
-sum of a key image is zero,
-which is indeed the way the vulnerability 
-was patched in the CryptoNote based 
-currency Monero.\cite{monero-fix}
+Points are not generally restricted to
+the large subgroup~$\cong \Z/\ell\Z$ in this way,
+because multiplying by a scalar such as~$\ell$
+is a rather expensive operation
+that can easily ruin the performance of a scheme.
+For Monero the impact is relatively minor,
+since verifying a `one-time ring signature' with five
+public keys already involves over a dozen scalar multiplications,
+but only requires a single key-image check.
+
+Restriction to the large subgroup is unsatisfactory
+also because it reintroduces 
+the need to check `validity' of points
+and associated issues.
+
+
+
+
 
 
 
@@ -143,22 +160,6 @@ currency Monero.\cite{monero-fix}
     pages={77--89},
     year={2012},
     note={\doi{10.1007/s13389-012-0027-1}}
-}
-
-\bib{decaf}{article}{
-    title={Decaf: Eliminating cofactors through point compression},
-    book={
-        series={LNCS},
-        volume={9215}
-    },
-    author={Hamburg, Mike},
-    conference={
-        title={CRYPTO},
-        date={2015}
-    },
-    pages={705--723},
-    year={2015},
-    note={\doi{10.1007/978-3-662-47989-6\_34}}
 }
 
 \bib{rfc6637}{report}{
@@ -227,6 +228,23 @@ currency Monero.\cite{monero-fix}
     note={\url{https://github.com/monero-project/monero/pull/1744/commits/d282cfcc46d39dc49e97f9ec5cedf7425e74d71f}},
     date={2017-02-20}
 }
+
+\bib{decaf}{article}{
+    title={Decaf: Eliminating cofactors through point compression},
+    book={
+        series={LNCS},
+        volume={9215}
+    },
+    author={Hamburg, Mike},
+    conference={
+        title={CRYPTO},
+        date={2015}
+    },
+    pages={705--723},
+    year={2015},
+    note={\doi{10.1007/978-3-662-47989-6\_34}}
+}
+
 \end{biblist}
 \end{bibdiv}
 
@@ -236,6 +254,8 @@ ElGamal in a cyclic group is mentioned in \S8.4.2 of
 the ``Handbook of Applied Cryptography''.
 
 Mention Edwards versus Montgomery coordinates.
+
+http://safecurves.cr.yp.to
 
 
 \end{document}
