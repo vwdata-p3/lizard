@@ -25,7 +25,7 @@ to ristretto255, a prime order elliptic curve group built
 Curve25519 is a widely adopted elliptic curve
 that was originally intended\cite{x25519} for 
 Diffie--Hellman key exchange,
-but is now also used for
+but is now also commonly used for
 digital signatures\cite{ed25519}
 and public key encryption\cite{rfc6637}.
 As long as it keeps withstanding attacks and public scrutiny
@@ -54,6 +54,7 @@ and analyse their security,
 an attacker is not bound by it,
 and may exploit `implementation details' instead.
 
+\subsection{Some pitfalls}
 Care must be taken,
 for example,
 in checking that points provided by untrusted parties,
@@ -70,10 +71,10 @@ so that it can easily be omitted once too often by accident
 in an implementation of a scheme not concerned with such details.
 Bernstein's Curve25519 Diffie--Hellman scheme sidesteps
 this issue by using an encoding of points
-that never yields points outside the valid curve
+that never yields points outside the valid curve,
 by design.
 
-Another matter designers have to contend with
+Another matter to contend with
 is the existence of points of order~$8$ in~$G$.
 During a Diffie--Hellman key exchange, for instance,
 such a point can be used by an attacker
@@ -97,7 +98,8 @@ to reveal the coin's `key image'
 (a unique point in~$G$ used to record that the coin was spend),
 only forces the spender to reveal
 the `key image' \emph{plus} a point of order $\leq 8$,
-making it possible to spend the same coin 8~times.
+making it possible to spend the same coin 8~times!
+
 An obvious solution,
 used by the CryptoNote based 
 currency Monero\cite{monero-fix},
@@ -116,16 +118,18 @@ For Monero the impact is relatively minor,
 since verifying a `one-time ring signature' with five
 public keys already involves over a dozen scalar multiplications,
 but only requires a single key-image check.
+Restriction to the large subgroup is unsatisfactory not only from 
+an efficiency standpoint, but also because it reintroduces
+the need to check `validity' of points---a check that easily
+falls between the cracks.
 
-Restriction to the large subgroup is unsatisfactory
-also because it reintroduces 
-the need to check `validity' of points
-and associated issues.
-
-
-
-
-
+\subsection{Ristretto}
+A more efficient and comprehensive
+solution to deal with the small subgroup 
+proposed by Mike Hamburg
+relies on the facts that 
+it's both easy to restrict to the even
+points $2G=\{2a\colon a\in G\}$
 
 
 
