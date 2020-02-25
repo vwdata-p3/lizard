@@ -118,18 +118,29 @@ For Monero the impact is relatively minor,
 since verifying a `one-time ring signature' with five
 public keys already involves over a dozen scalar multiplications,
 but only requires a single key-image check.
-Restriction to the large subgroup is unsatisfactory not only from 
+Restriction to the large subgroup is unsatisfactory in general not only from 
 an efficiency standpoint, but also because it reintroduces
 the need to check `validity' of points---a check that easily
 falls between the cracks.
 
 \subsection{Ristretto}
-A more efficient and comprehensive
-solution to deal with the small subgroup 
-proposed by Mike Hamburg
-relies on the facts that 
-it's both easy to restrict to the even
-points $2G=\{2a\colon a\in G\}$
+Mike Hamburg observed that a more
+efficient and
+unobstrusive
+method to remove the small subgroup
+would be to change the equality between points,
+so that two points are equal when 
+their difference is in the small subgroup.
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -260,6 +271,34 @@ the ``Handbook of Applied Cryptography''.
 Mention Edwards versus Montgomery coordinates.
 
 http://safecurves.cr.yp.to
+
+Concretely,
+$G$ may be defined by,
+writing~$\Z_n$ for the integers modulo~$n$,
+\begin{equation*}
+G\ =\ \{\ (x,y)\in \Z_q\times \Z_q\colon\  y^2-x^2\,=\,1+dx^2y^2\ \},
+\end{equation*}
+where~$q:=2^{255}-19$
+and $d:=-\frac{121665}{121666}$.
+Addition is given by
+\begin{equation*}
+    (x_1,y_1)\,+\,(x_2,y_2)\ =\  \
+    \Bigl(\ \frac{x_1y_2+x_2y_1}{1+dx_1x_2y_1y_2},\ 
+    \frac{x_1x_2+y_1y_2}{1-dx_1x_2y_1y_2}\ \Bigr).
+\end{equation*}
+
+Writing
+\begin{equation*}
+    \textstyle
+    \alpha \ :=\ \sqrt{1+\frac{\sqrt{1+d}}{d}},
+\end{equation*}
+the four (odd) order eight points of~$G$
+are
+\begin{equation*}
+(i\alpha,\alpha),\qquad(i\alpha,-\alpha),
+    \qquad(-i\alpha,-\alpha),\qquad (-i\alpha,\alpha)
+\end{equation*}
+
 
 
 \end{document}
